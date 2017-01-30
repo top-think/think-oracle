@@ -20,6 +20,8 @@ use think\db\Connection as BaseConnection;
 class Connection extends BaseConnection
 {
 
+    protected $builder = '\\think\\oracle\\Builder';
+
     /**
      * 解析pdo连接的dsn信息
      * @access protected
