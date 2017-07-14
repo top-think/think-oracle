@@ -9,4 +9,8 @@ ThinkPHP 5.0 Oracle驱动
 'type'  =>  '\think\oracle\Connection',
 ~~~
 
+```
+安装方法
 
+composer require topthink/think-oracle
+```
