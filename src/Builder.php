@@ -10,21 +10,23 @@
 namespace think\oracle;
 
 use think\db\Builder as BaseBuilder;
+use think\db\Query;
 
 /**
  * Oracle数据库驱动
  */
 class Builder extends BaseBuilder
 {
-
     protected $selectSql = 'SELECT * FROM (SELECT thinkphp.*, rownum AS numrow FROM (SELECT  %DISTINCT% %FIELD% FROM %TABLE%%JOIN%%WHERE%%GROUP%%HAVING%%ORDER%) thinkphp ) %LIMIT%%COMMENT%';
 
     /**
-     * limit
-     * @access public
+     * limit分析
+     * @access protected
+     * @param  Query     $query        查询对象
+     * @param  mixed     $limit
      * @return string
      */
-    public function parseLimit($limit)
+    protected function parseLimit(Query $query, $limit)
     {
         $limitStr = '';
         if (!empty($limit)) {
@@ -36,16 +38,18 @@ class Builder extends BaseBuilder
             }
 
         }
+
         return $limitStr ? ' WHERE ' . $limitStr : '';
     }
 
     /**
      * 设置锁机制
      * @access protected
-     * @param bool|false $lock
+     * @param  Query      $query        查询对象
+     * @param  bool|false $lock
      * @return string
      */
-    protected function parseLock($lock = false)
+    protected function parseLock(Query $query, $lock = false)
     {
         if (!$lock) {
             return '';
@@ -57,29 +61,31 @@ class Builder extends BaseBuilder
     /**
      * 字段和表名处理
      * @access protected
-     * @param string $key
-     * @param array  $options
+     * @param  Query      $query        查询对象
+     * @param  string     $key
      * @return string
      */
-    protected function parseKey($key, $options = [])
+    protected function parseKey(Query $query, $key)
     {
         $key = trim($key);
-        if (strpos($key, '$.') && false === strpos($key, '(')) {
+
+        if (strpos($key, '->') && false === strpos($key, '(')) {
             // JSON字段支持
-            list($field, $name) = explode($key, '$.');
+            list($field, $name) = explode($key, '->');
             $key                = $field . '."' . $name . '"';
         }
+
         return $key;
     }
 
     /**
      * 随机排序
      * @access protected
+     * @param  Query      $query        查询对象
      * @return string
      */
-    protected function parseRand()
+    protected function parseRand(Query $query)
     {
         return 'DBMS_RANDOM.value';
     }
-
 }
