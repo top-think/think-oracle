@@ -63,9 +63,10 @@ class Builder extends BaseBuilder
      * @access public
      * @param  Query      $query        查询对象
      * @param  string     $key
+     * @param  string     $strict
      * @return string
      */
-    public function parseKey(Query $query, $key)
+    public function parseKey(Query $query, $key, $strict = false)
     {
         $key = trim($key);
 
