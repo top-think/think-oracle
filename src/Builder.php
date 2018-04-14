@@ -57,11 +57,12 @@ class Builder extends BaseBuilder
     /**
      * 字段和表名处理
      * @access protected
-     * @param string $key
-     * @param array  $options
+     * @param string    $key
+     * @param array     $options
+     * @param bool      $strict
      * @return string
      */
-    protected function parseKey($key, $options = [])
+    protected function parseKey($key, $options = [], $strict = false)
     {
         $key = trim($key);
         if (strpos($key, '$.') && false === strpos($key, '(')) {
