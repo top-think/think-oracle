@@ -96,7 +96,7 @@ class Connection extends BaseConnection
     public function getLastInsID($sequence = null)
     {
         if ($sequence === null) {
-            return;
+            return '';
         }
         $pdo    = $this->linkID->query("select {$sequence}.currval as id from dual");
         $result = $pdo->fetchColumn();
