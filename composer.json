@@ -1,6 +1,6 @@
 {
     "name": "topthink/think-oracle",
-    "description": "Oracle driver for thinkphp5",
+    "description": "Oracle driver for thinkphp",
     "license": "Apache-2.0",
     "authors": [
         {
@@ -9,13 +9,14 @@
         }
     ],
     "require": {
-        "topthink/framework": "~5.1.9"    
+        "topthink/framework": "^6.0.0"    
     },
     "autoload": {
         "psr-4": {
-            "think\\oracle\\": "src"
+            "think\\db\\": "src"
         },
         "files": [
         ]
-    }
+    },
+    "minimum-stability": "dev"
 }

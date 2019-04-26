@@ -7,30 +7,32 @@
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 
-namespace think\oracle;
+namespace think\db\builder;
 
-use think\db\Builder as BaseBuilder;
+use think\db\Builder;
 use think\db\Query;
 
 /**
  * Oracle数据库驱动
  */
-class Builder extends BaseBuilder
+class Oracle extends Builder
 {
     protected $selectSql = 'SELECT * FROM (SELECT thinkphp.*, rownum AS numrow FROM (SELECT  %DISTINCT% %FIELD% FROM %TABLE%%JOIN%%WHERE%%GROUP%%HAVING%%ORDER%) thinkphp ) %LIMIT%%COMMENT%';
 
     /**
      * limit分析
      * @access protected
-     * @param  Query     $query        查询对象
-     * @param  mixed     $limit
+     * @param  Query $query 查询对象
+     * @param  mixed $limit
      * @return string
      */
-    protected function parseLimit(Query $query, $limit)
+    protected function parseLimit(Query $query, string $limit): string
     {
         $limitStr = '';
+
         if (!empty($limit)) {
             $limit = explode(',', $limit);
+
             if (count($limit) > 1) {
                 $limitStr = "(numrow>" . $limit[0] . ") AND (numrow<=" . ($limit[0] + $limit[1]) . ")";
             } else {
@@ -45,11 +47,11 @@ class Builder extends BaseBuilder
     /**
      * 设置锁机制
      * @access protected
-     * @param  Query      $query        查询对象
+     * @param  Query      $query 查询对象
      * @param  bool|false $lock
      * @return string
      */
-    protected function parseLock(Query $query, $lock = false)
+    protected function parseLock(Query $query, $lock = false): string
     {
         if (!$lock) {
             return '';
@@ -61,12 +63,12 @@ class Builder extends BaseBuilder
     /**
      * 字段和表名处理
      * @access public
-     * @param  Query      $query        查询对象
-     * @param  string     $key
-     * @param  string     $strict
+     * @param  Query  $query  查询对象
+     * @param  string $key
+     * @param  string $strict
      * @return string
      */
-    public function parseKey(Query $query, $key, $strict = false)
+    public function parseKey(Query $query, $key, bool $strict = false): string
     {
         $key = trim($key);
 
@@ -82,10 +84,10 @@ class Builder extends BaseBuilder
     /**
      * 随机排序
      * @access protected
-     * @param  Query      $query        查询对象
+     * @param  Query $query 查询对象
      * @return string
      */
-    protected function parseRand(Query $query)
+    protected function parseRand(Query $query): string
     {
         return 'DBMS_RANDOM.value';
     }
