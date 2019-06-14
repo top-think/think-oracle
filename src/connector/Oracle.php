@@ -10,12 +10,12 @@
 namespace think\db\connector;
 
 use PDO;
-use think\db\Connection;
+use think\db\PDOConnection;
 
 /**
  * Oracle数据库驱动
  */
-class Oracle extends Connection
+class Oracle extends PDOConnection
 {
     /**
      * 解析pdo连接的dsn信息
